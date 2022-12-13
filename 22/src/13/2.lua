@@ -61,17 +61,15 @@ repeat
 		table.insert(pkts, parse_packet(next_line()))
 	end
 until not next_line()
-table.sort(pkts, function(l, r)
-	local order = cmp(l, r)
-	return order < 0
-end)
 
 local function find_pkt_idx(search_pkt)
-	for i, pkt in ipairs(pkts) do
-		if pkt == search_pkt then
-			return i
+	local index = 1
+	for _, pkt in ipairs(pkts) do
+		if cmp(pkt, search_pkt) < 0 then
+			index = index + 1
 		end
 	end
+	return index
 end
 
 return find_pkt_idx(div1) * find_pkt_idx(div2)
