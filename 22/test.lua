@@ -13,6 +13,7 @@ local answers = {
 	{12460, "EZFPRAKL"},
 	{56595, 15693274740},
 	{449, 443},
+	{6623, 23049},
 }
 
 for day, expected_parts in ipairs(answers) do
