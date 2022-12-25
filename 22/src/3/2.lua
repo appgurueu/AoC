@@ -8,28 +8,30 @@ local function get_priority(char)
 	return char:byte() - ("A"):byte() + 27
 end
 
-local all_priorities <const> = (1 << 53) - 1
 local priority_sum = 0
-local rucksacks, common_priorities = 0, all_priorities
+local rucksacks, counts = 0, {}
+
 for rucksack in ... do
+	local seen = {}
+	for item in rucksack:gmatch"." do
+		local priority = get_priority(item)
+		if not seen[priority] then
+			seen[priority] = true
+			counts[priority] = (counts[priority] or 0) + 1
+		end
+	end
 	rucksacks = rucksacks + 1
 	if rucksacks == 3 then
 		local common_priority
-		for item in rucksack:gmatch"." do
-			local priority = get_priority(item)
-			if (common_priorities & (1 << priority)) ~= 0 then
+		for priority, count in pairs(counts) do
+			if count == rucksacks then
 				common_priority = priority
 				break
 			end
 		end
 		priority_sum = priority_sum + common_priority
-		rucksacks, common_priorities = 0, all_priorities
-	else
-		local priorities = 0
-		for item in rucksack:gmatch"." do
-			priorities = priorities | (1 << get_priority(item))
-		end
-		common_priorities = common_priorities & priorities
+		rucksacks = 0
+		counts = {}
 	end
 end
 return priority_sum
