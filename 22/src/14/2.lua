@@ -9,15 +9,15 @@ local function get_tile(x, y)
 end
 for path in ... do
 	local last_x, last_y
-	for x, y in path:gmatch"(%d+),(%d+)" do
-		local x, y = tonumber(x), tonumber(y)
+	for x_str, y_str in path:gmatch"(%d+),(%d+)" do
+		local x, y = tonumber(x_str), tonumber(y_str)
 		if last_x == x then
-			for y = math.min(y, last_y), math.max(y, last_y) do
-				set_tile(x, y)
+			for ly = math.min(y, last_y), math.max(y, last_y) do
+				set_tile(x, ly)
 			end
 		elseif last_y == y then
-			for x = math.min(x, last_x), math.max(x, last_x) do
-				set_tile(x, y)
+			for lx = math.min(x, last_x), math.max(x, last_x) do
+				set_tile(lx, y)
 			end
 		else
 			assert(not (last_x or last_y))

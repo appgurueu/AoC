@@ -7,8 +7,8 @@ local ops = {
 
 local monkeys = {}
 local mod = 1
-local i = 0
-while true do
+do local i = 0
+repeat
 	local line = next_line()
 	local id = tonumber(line:match"^Monkey (%d+):$")
 	assert(id == i); i = i + 1
@@ -34,8 +34,7 @@ while true do
 		get_recipient = get_recipient,
 		inspections = 0,
 	}
-	if not next_line() then break end
-end
+until not next_line() end
 
 for _ = 1, 1e4 do
 	for i = 0, #monkeys do
