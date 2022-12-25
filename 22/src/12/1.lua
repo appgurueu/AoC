@@ -1,3 +1,5 @@
+local unpack = unpack or table.unpack
+
 local grid = {}
 local start_x, start_y
 for line in ... do
@@ -27,13 +29,13 @@ local dirs = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 local level = {{start_x, start_y}}
 grid[start_y][start_x].visited = true
 local step = 1
-repeat
+while true do
 	local next_level = {}
 	for _, pos in pairs(level) do
-		local x, y = table.unpack(pos)
+		local x, y = unpack(pos)
 		local maxheight = grid[y][x].height + 1
 		for _, dir in pairs(dirs) do
-			local dx, dy = table.unpack(dir)
+			local dx, dy = unpack(dir)
 			local nx, ny = x + dx, y + dy
 			local cell = (grid[ny] or {})[nx]
 			if cell and not cell.visited and cell.height <= maxheight then
@@ -47,4 +49,4 @@ repeat
 	end
 	level = next_level
 	step = step + 1
-until false
+end

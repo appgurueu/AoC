@@ -6,8 +6,8 @@ local ops = {
 }
 
 local monkeys = {}
-local i = 0
-while true do
+do local i = 0
+repeat
 	local line = next_line()
 	local id = tonumber(line:match"^Monkey (%d+):$")
 	assert(id == i); i = i + 1
@@ -32,15 +32,14 @@ while true do
 		get_recipient = get_recipient,
 		inspections = 0,
 	}
-	if not next_line() then break end
-end
+until not next_line() end
 
 for _ = 1, 20 do
 	for i = 0, #monkeys do
 		local monkey = monkeys[i]
 		monkey.inspections = monkey.inspections + #monkey.items
 		for _, item in ipairs(monkey.items) do
-			item = monkey.operation(item) // 3
+			item = math.floor(monkey.operation(item) / 3)
 			local recipient = monkeys[monkey.get_recipient(item)]
 			assert(recipient and recipient ~= monkey)
 			table.insert(recipient.items, item)

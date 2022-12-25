@@ -4,7 +4,7 @@ local screen = {[0] = "#"}
 local w, h = 40, 6
 local function next_cycle()
 	cycle = cycle + 1
-	local px, py = cycle % w, cycle // w
+	local px, py = cycle % w, math.floor(cycle / w)
 	screen[py * w + px] = math.abs(X - px) <= 1 and "#" or "."
 end
 for instr in ... do

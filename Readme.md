@@ -13,6 +13,6 @@
 	* `test.lua`: Regression tests
 	* `run.lua`: Utility to run files
 		* Usage: `./run.lua <day> <part>`
-		* Requires Lua 5.4
+		* Requires ~~Lua 5.4~~ LuaJIT (for speed); most should also run with Lua 5.4 or newer
 		* Files are chunks getting a line iterator in `...`
 		  and `return`ing the solution

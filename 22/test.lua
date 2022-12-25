@@ -1,4 +1,4 @@
-#!/usr/bin/lua5.4
+#!/usr/bin/luajit
 
 local answers = {
 	{71506, 209603},

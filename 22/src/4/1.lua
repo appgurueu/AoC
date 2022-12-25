@@ -1,3 +1,5 @@
+local unpack = unpack or table.unpack
+
 local function list(...)
 	local t = {}
 	for v in ... do
@@ -15,7 +17,7 @@ end
 
 local count = 0
 for pair in ... do
-	local min, max, min_other, max_other = table.unpack(map(list(pair:gmatch"%d+"), tonumber))
+	local min, max, min_other, max_other = unpack(map(list(pair:gmatch"%d+"), tonumber))
 	if (min >= min_other and max <= max_other) or (min_other >= min and max_other <= max) then
 		count = count + 1
 	end
