@@ -1,6 +1,8 @@
 import System.Environment (getArgs)
 import Data.List (group, intercalate)
 import Data.Array (listArray, (!))
+import qualified Data.Map as Map
+import Data.Maybe (fromJust)
 
 split _ [] = []
 split elem list = foldr (\e l@(cur:rest) -> if e == elem then []:l else (e:cur):rest) [[]] list
@@ -13,10 +15,10 @@ arrangements (a, b) = nGroups 0 0 where
     (conds, ns) = (listArray (0, length a - 1) a, listArray (0, length b - 1) b)
     (lc, ln) = (length conds, length ns)
     checkContiguous i j = all ((/='.') . (conds !)) [i..j]
-    -- TODO very hacky and inefficient memoization
-    nGroups' i j = map (\k -> nGroups (k `div` (ln + 1)) (k `mod` (ln + 1)))
-        (reverse [0 .. (ln + 1) * (lc + 1) - 1])
-        !! ((ln + 1) * (lc + 1) - 1 - (i * (ln + 1) + j))
+    -- TODO very hacky memoization
+    nGroups' i j = fromJust $ Map.lookup ((ln + 1) * (lc + 1) - 1 - (i * (ln + 1) + j))
+        $ Map.fromAscList (zip [0..] $ map (\k -> nGroups (k `div` (ln + 1)) (k `mod` (ln + 1)))
+        (reverse [0 .. (ln + 1) * (lc + 1) - 1]))
     nGroups i j
         | i < length conds && j < length ns = let
                 n = ns ! j
